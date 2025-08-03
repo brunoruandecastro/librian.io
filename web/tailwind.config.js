@@ -1,25 +1,22 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  darkMode: 'class',
-  content: ['./src/**/*.{ts,tsx}'],
+const config = {
+  content: [
+    "./app/**/*.{ts,tsx}",
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+  ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['var(--font-sans)', 'sans-serif'],
-        serif: ['var(--font-serif)', 'serif'],
-      },
       colors: {
-        background: 'var(--background)',
-        surface: 'var(--surface)',
-        accent: 'var(--accent)',
-        border: 'var(--border)',
-        card: 'var(--card-background)',
-        text: {
-          DEFAULT: 'var(--text-primary)',
-          secondary: 'var(--text-secondary)',
-        },
+        accent: "#7B4E2D", // marrom escuro principal
+        background: "#1C1A17", // fundo geral escuro
+        surface: "#2C2621", // áreas de conteúdo (cards, forms)
+        text: "#EDE6DD", // texto principal claro
+        "text-secondary": "#C4B7A6", // texto secundário
+        border: "#3D352F", // bordas
+        muted: "#514437", // divisores ou tons neutros
       },
     },
   },
   plugins: [],
 }
+export default config

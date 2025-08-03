@@ -1,4 +1,5 @@
-import BookForm from "@/components/BookForm";
+"use client"
+import BookForm from "@/components/BookForm"
 
 export default function NewBookPage() {
   return (
@@ -7,4 +8,4 @@ export default function NewBookPage() {
       <BookForm />
     </div>
   )
-}
+} 
