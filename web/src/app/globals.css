@@ -1,19 +1,242 @@
 @import "tailwindcss";
 
 :root {
-  --background: #1c1b1a;
-  --surface: #2a2928;
-  --accent: #bfa37c;
-  --text-primary: #f1f0ee;
-  --text-secondary: #a3a29e;
-  --border: #3c3b3a;
-  --card-background: #282726;
-  --font-sans: 'InterVariable', sans-serif;
+  /* Tema escuro - Design moderno e elegante */
+  --background: #0f172a;
+  --surface: #1e293b;
+  --surface-secondary: #334155;
+  --accent: #a78bfa;
+  --accent-light: #c4b5fd;
+  --accent-dark: #8b5cf6;
+
+  /* Texto */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  /* Bordas e divisores */
+  --border: #334155;
+  --border-light: #475569;
+  --border-subtle: rgba(30, 41, 59, 0.3);
+
+  /* Cards e elementos */
+  --card-background: #1e293b;
+  --card-border: #334155;
+  --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+
+  /* Estados */
+  --hover: #334155;
+  --active: #475569;
+
+  /* Cores de status */
+  --success: #10b981;
+  --success-light: #064e3b;
+  --warning: #f59e0b;
+  --warning-light: #451a03;
+  --info: #3b82f6;
+  --info-light: #1e3a8a;
+  --danger: #ef4444;
+  --danger-light: #450a0a;
+
+  /* Tipografia */
+  --font-sans: 'InterVariable', 'Geist', sans-serif;
   --font-serif: 'Lora', serif;
+  --font-mono: 'Geist_Mono', monospace;
 }
 
 body {
   background: var(--background);
   color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* Utilitários extras */
+.bg-surface-main {
+  background: var(--surface-main);
+}
+
+.bg-surface {
+  background: var(--surface);
+}
+
+.bg-surface-secondary {
+  background: var(--surface-secondary);
+}
+
+.bg-card {
+  background: var(--card-background);
+}
+
+.text-text-primary {
+  color: var(--text-primary);
+}
+
+.text-text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-text-muted {
+  color: var(--text-muted);
+}
+
+.border-card-border {
+  border-color: var(--card-border);
+}
+
+.shadow-card {
+  box-shadow: var(--card-shadow);
+}
+
+.rounded-2xl {
+  border-radius: 1.25rem !important;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem !important;
+}
+
+/* Melhorias de acessibilidade */
+* {
+  box-sizing: border-box;
+}
+
+/* Transições suaves para interações */
+* {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+/* Bordas mais suaves e finas */
+.border-subtle {
+  border-color: var(--border-subtle);
+  border-width: 0.5px;
+}
+
+.border-light {
+  border-color: var(--border-light);
+  border-width: 0.5px;
+}
+
+/* Bordas ultra sutis */
+.border-ultra-subtle {
+  border-color: rgba(30, 41, 59, 0.15);
+  border-width: 0.5px;
+}
+
+/* Bordas com opacidade reduzida */
+.border-transparent-subtle {
+  border-color: rgba(51, 65, 85, 0.2);
+  border-width: 0.5px;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Animações sutis */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease forwards;
+}
+
+/* Melhorias de acessibilidade */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Tipografia responsiva */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Utilitários para gradientes */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+}
+
+.bg-gradient-card {
+  background: linear-gradient(180deg, var(--card-background) 0%, var(--surface-secondary) 100%);
+}
+
+/* Utilitários para glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Bordas sutis para inputs e elementos de formulário */
+input,
+textarea,
+select {
+  border-color: rgba(30, 41, 59, 0.2) !important;
+  border-width: 0.5px !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent) !important;
+  border-width: 1px !important;
+}
+
+/* Bordas sutis para cards e containers */
+.border-border-subtle {
+  border-color: rgba(30, 41, 59, 0.15) !important;
+  border-width: 0.5px !important;
 }
