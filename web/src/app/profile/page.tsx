@@ -22,8 +22,10 @@ const generateAvatarUrl = (name: string, email: string) => {
   return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed)}&backgroundColor=3b82f6&textColor=ffffff&fontSize=40`;
 };
 
+type TabId = 'overview' | 'reading-goals' | 'preferences'
+
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'reading-goals' | 'preferences'>('overview')
+  const [activeTab, setActiveTab] = useState<TabId>('overview')
   const { user: authUser, loading: authLoading, token } = useAuth()
   const [userStats, setUserStats] = useState<UserStats | null>(null)
   const [statsLoading, setStatsLoading] = useState(true)
@@ -202,15 +204,15 @@ export default function ProfilePage() {
         {/* Tabs */}
         <div className="flex border-b border-border-subtle mb-8">
           {[
-            { id: 'overview', label: 'Visão Geral', icon: User },
-            { id: 'reading-goals', label: 'Metas de Leitura', icon: Target },
-            { id: 'preferences', label: 'Preferências', icon: Settings }
+            { id: 'overview' as const, label: 'Visão Geral', icon: User },
+            { id: 'reading-goals' as const, label: 'Metas de Leitura', icon: Target },
+            { id: 'preferences' as const, label: 'Preferências', icon: Settings }
           ].map((tab) => {
             const Icon = tab.icon
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-3 px-6 py-4 border-b-2 transition-all duration-200 font-semibold ${activeTab === tab.id
                   ? 'border-accent text-accent bg-accent-light/10'
                   : 'border-transparent text-text-secondary hover:text-accent hover:bg-accent-light/5'
