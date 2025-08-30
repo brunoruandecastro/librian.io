@@ -1,26 +1,66 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { BookStatus } from '@prisma/client';
+
+export interface UserStats {
+  totalBooks: number;
+  readBooks: number;
+  readingBooks: number;
+  ownedBooks: number;
+  donatingBooks: number;
+  sellingBooks: number;
+  joinDate: string;
+}
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createUserDto: CreateUserDto) {
+    return this.prisma.user.create({ data: createUserDto });
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findOne(id: string) {
+    return this.prisma.user.findUnique({ where: { id } });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findByEmail(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    return this.prisma.user.update({ where: { id }, data: updateUserDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async getUserStats(userId: string): Promise<UserStats> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        books: true
+      }
+    });
+
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    const totalBooks = user.books.length;
+    const readBooks = user.books.filter(book => book.status === BookStatus.READ).length;
+    const readingBooks = user.books.filter(book => book.status === BookStatus.READING).length;
+    const ownedBooks = user.books.filter(book => book.status === BookStatus.OWNED).length;
+    const donatingBooks = user.books.filter(book => book.status === BookStatus.DONATING).length;
+    const sellingBooks = user.books.filter(book => book.status === BookStatus.SELLING).length;
+
+    return {
+      totalBooks,
+      readBooks,
+      readingBooks,
+      ownedBooks,
+      donatingBooks,
+      sellingBooks,
+      joinDate: user.createdAt.toISOString()
+    };
   }
 }

@@ -39,7 +39,7 @@ export interface GoogleBooksSearchResponse {
 export class GoogleBooksGateway {
   private readonly baseUrl = 'https://www.googleapis.com/books/v1';
 
-  constructor(private readonly httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService) {}
 
   /**
    * Busca volumes por termo (título, autor, ISBN, etc.)
@@ -63,7 +63,7 @@ export class GoogleBooksGateway {
 
     try {
       const response = await firstValueFrom(
-        this.httpService.get<GoogleBooksSearchResponse>(url)
+        this.httpService.get<GoogleBooksSearchResponse>(url),
       );
 
       return response.data;
@@ -82,7 +82,7 @@ export class GoogleBooksGateway {
 
     try {
       const response = await firstValueFrom(
-        this.httpService.get<GoogleBooksVolume>(url)
+        this.httpService.get<GoogleBooksVolume>(url),
       );
 
       return response.data;
@@ -117,4 +117,4 @@ export class GoogleBooksGateway {
   async searchByAuthor(author: string): Promise<GoogleBooksSearchResponse> {
     return this.searchVolumes(`inauthor:${author}`);
   }
-} 
+}

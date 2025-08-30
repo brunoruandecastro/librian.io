@@ -1,29 +1,111 @@
 "use client"
 
 import Layout from "@/components/Layout"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useAuth } from "@/contexts/AuthContext"
 import { User, BookOpen, Eye, Star, Calendar, Settings, Edit, Download, Share, Bell, Trophy, Target, TrendingUp, Award, Clock, Heart } from "lucide-react"
+
+interface UserStats {
+  totalBooks: number;
+  readBooks: number;
+  readingBooks: number;
+  ownedBooks: number;
+  donatingBooks: number;
+  sellingBooks: number;
+  joinDate: string;
+}
+
+//todo: arrumar
+// Função para gerar avatar baseado no nome/email
+const generateAvatarUrl = (name: string, email: string) => {
+  const seed = name || email || 'user';
+  return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed)}&backgroundColor=3b82f6&textColor=ffffff&fontSize=40`;
+};
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'reading-goals' | 'preferences'>('overview')
+  const { user: authUser, loading: authLoading, token } = useAuth()
+  const [userStats, setUserStats] = useState<UserStats | null>(null)
+  const [statsLoading, setStatsLoading] = useState(true)
+  const [imageError, setImageError] = useState(false)
 
-  // Mock user data
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      if (!authUser || !token) return;
+      
+      try {
+        setStatsLoading(true);
+        const response = await fetch('http://127.0.0.1:3001/users/stats', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (response.ok) {
+          const stats = await response.json();
+          setUserStats(stats);
+        } else {
+          console.error('Erro ao buscar estatísticas do usuário');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar estatísticas:', error);
+      } finally {
+        setStatsLoading(false);
+      }
+    };
+
+    fetchUserStats();
+  }, [authUser, token]);
+
+  // Dados do usuário com dados reais da API
   const user = {
-    name: "Bruno Ruã",
-    email: "bruno@librian.io",
-    avatar: null,
-    joinDate: "2023-01-15",
-    totalBooks: 156,
-    readBooks: 89,
-    readingBooks: 3,
+    name: authUser?.name || "",
+    email: authUser?.email || "",
+    joinDate: userStats?.joinDate || "",
+    totalBooks: userStats?.totalBooks || 0,
+    readBooks: userStats?.readBooks || 0,
+    readingBooks: userStats?.readingBooks || 0,
+    ownedBooks: userStats?.ownedBooks || 0,
+    donatingBooks: userStats?.donatingBooks || 0,
+    sellingBooks: userStats?.sellingBooks || 0,
+    // TODO: Dados que ainda não temos na API (podem ser calculados ou adicionados depois)
     averageRating: 4.2,
     pagesRead: 28450,
     favoriteGenre: "Fantasia",
     readingGoal: 50,
-    booksReadThisYear: 23,
+    booksReadThisYear: userStats?.readBooks || 0,
     readingStreak: 45,
     level: "Leitor Avançado",
     achievements: 12
+  }
+
+  // Estado de carregamento
+  if (authLoading || statsLoading) {
+    return (
+      <Layout>
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+              <p className="text-text-secondary">Carregando perfil...</p>
+            </div>
+          </div>
+        </div>
+      </Layout>
+    )
+  }
+
+  // Se não há usuário logado
+  if (!authUser) {
+    return (
+      <Layout>
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <div className="text-center">
+            <p className="text-text-secondary">Você precisa estar logado para ver seu perfil.</p>
+          </div>
+        </div>
+      </Layout>
+    )
   }
 
   const readingGoals = [
@@ -57,8 +139,23 @@ export default function ProfilePage() {
               <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
                 {/* Avatar */}
                 <div className="relative">
-                  <div className="w-24 h-24 bg-gradient-to-br from-accent-light/20 via-accent/20 to-accent-dark/20 rounded-3xl flex items-center justify-center border-4 border-surface shadow-lg">
-                    <User className="w-12 h-12 text-accent" />
+                  <div className="w-24 h-24 bg-gradient-to-br from-accent-light/20 via-accent/20 to-accent-dark/20 rounded-3xl flex items-center justify-center border-4 border-surface shadow-lg overflow-hidden">
+                    <img 
+                      src={generateAvatarUrl(user.name, user.email)}
+                      alt={user.name || 'Avatar do usuário'}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.log('Erro ao carregar avatar:', e.currentTarget.src);
+                        if (e.currentTarget.src !== generateAvatarUrl(user.name, user.email)) {
+                          e.currentTarget.src = generateAvatarUrl(user.name, user.email);
+                        } else {
+                          setImageError(true);
+                        }
+                      }}
+                    />
+                    {imageError && (
+                      <User className="w-12 h-12 text-accent absolute inset-0 m-auto" />
+                    )}
                   </div>
                   <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center border-2 border-surface">
                     <Award className="w-4 h-4 text-white" />
@@ -312,4 +409,4 @@ export default function ProfilePage() {
       </div>
     </Layout>
   )
-} 
+}

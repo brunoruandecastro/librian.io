@@ -10,4 +10,4 @@ import { BookSuggestionController } from './controllers/book-suggestion.controll
   controllers: [BookSuggestionController],
   exports: [GoogleBooksGateway, BookSuggestionService],
 })
-export class GatewaysModule { } 
+export class GatewaysModule {}

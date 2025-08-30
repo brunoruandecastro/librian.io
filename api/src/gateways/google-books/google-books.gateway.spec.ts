@@ -1,7 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpService } from '@nestjs/axios';
 import { of } from 'rxjs';
-import { GoogleBooksGateway, GoogleBooksSearchResponse, GoogleBooksVolume } from './google-books.gateway';
+import {
+  GoogleBooksGateway,
+  GoogleBooksSearchResponse,
+  GoogleBooksVolume,
+} from './google-books.gateway';
 
 describe('GoogleBooksGateway', () => {
   let gateway: GoogleBooksGateway;
@@ -75,7 +79,7 @@ describe('GoogleBooksGateway', () => {
 
       expect(result).toEqual(mockSearchResponse);
       expect(httpService.get).toHaveBeenCalledWith(
-        expect.stringContaining('volumes?q=harry+potter')
+        expect.stringContaining('volumes?q=harry+potter'),
       );
     });
 
@@ -88,7 +92,7 @@ describe('GoogleBooksGateway', () => {
       });
 
       await expect(gateway.searchVolumes(query)).rejects.toThrow(
-        `Erro ao buscar volumes: ${errorMessage}`
+        `Erro ao buscar volumes: ${errorMessage}`,
       );
     });
   });
@@ -105,7 +109,7 @@ describe('GoogleBooksGateway', () => {
 
       expect(result).toEqual(mockVolume);
       expect(httpService.get).toHaveBeenCalledWith(
-        expect.stringContaining(`/volumes/${volumeId}`)
+        expect.stringContaining(`/volumes/${volumeId}`),
       );
     });
   });
@@ -118,7 +122,7 @@ describe('GoogleBooksGateway', () => {
       await gateway.searchByIsbn(isbn);
 
       expect(httpService.get).toHaveBeenCalledWith(
-        expect.stringContaining('q=isbn%3A9781234567890')
+        expect.stringContaining('q=isbn%3A9781234567890'),
       );
     });
   });
@@ -131,7 +135,7 @@ describe('GoogleBooksGateway', () => {
       await gateway.searchByTitle(title);
 
       expect(httpService.get).toHaveBeenCalledWith(
-        expect.stringContaining('q=intitle%3AHarry+Potter')
+        expect.stringContaining('q=intitle%3AHarry+Potter'),
       );
     });
   });
@@ -144,8 +148,8 @@ describe('GoogleBooksGateway', () => {
       await gateway.searchByAuthor(author);
 
       expect(httpService.get).toHaveBeenCalledWith(
-        expect.stringContaining('q=inauthor%3AJ.K.+Rowling')
+        expect.stringContaining('q=inauthor%3AJ.K.+Rowling'),
       );
     });
   });
-}); 
+});

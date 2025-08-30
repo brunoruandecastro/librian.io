@@ -1,9 +1,12 @@
 import { Controller, Get, Query, Param } from '@nestjs/common';
-import { BookSuggestionService, BookSuggestion } from '../services/book-suggestion.service';
+import {
+  BookSuggestionService,
+  BookSuggestion,
+} from '../services/book-suggestion.service';
 
 @Controller('book-suggestions')
 export class BookSuggestionController {
-  constructor(private readonly bookSuggestionService: BookSuggestionService) { }
+  constructor(private readonly bookSuggestionService: BookSuggestionService) {}
 
   /**
    * Busca sugestões de livros por termo geral
@@ -74,7 +77,9 @@ export class BookSuggestionController {
    * GET /book-suggestions/details/volumeId
    */
   @Get('details/:volumeId')
-  async getBookDetails(@Param('volumeId') volumeId: string): Promise<BookSuggestion | null> {
+  async getBookDetails(
+    @Param('volumeId') volumeId: string,
+  ): Promise<BookSuggestion | null> {
     if (!volumeId) {
       return null;
     }
@@ -96,6 +101,9 @@ export class BookSuggestionController {
     }
 
     const maxResultsNumber = parseInt(maxResults, 10) || 10;
-    return this.bookSuggestionService.getSmartSuggestions(query, maxResultsNumber);
+    return this.bookSuggestionService.getSmartSuggestions(
+      query,
+      maxResultsNumber,
+    );
   }
-} 
+}

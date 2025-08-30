@@ -7,6 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String?
+  picture       String?
+  googleId      String?   @unique
+  books         Book[]    
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
 model Book {
   id          String     @id @default(uuid())
   title       String
@@ -17,6 +28,8 @@ model Book {
   status      BookStatus @default(OWNED)
   description String?
   coverUrl    String?
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id])
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }

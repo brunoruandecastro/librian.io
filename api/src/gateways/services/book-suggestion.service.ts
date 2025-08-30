@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { GoogleBooksGateway, GoogleBooksVolume } from '../google-books/google-books.gateway';
+import {
+  GoogleBooksGateway,
+  GoogleBooksVolume,
+} from '../google-books/google-books.gateway';
 
 export interface BookSuggestion {
   id: string;
@@ -22,14 +25,15 @@ export interface BookSuggestion {
 
 @Injectable()
 export class BookSuggestionService {
-  constructor(private readonly googleBooksGateway: GoogleBooksGateway) { }
+  constructor(private readonly googleBooksGateway: GoogleBooksGateway) {}
 
   /**
    * Converte um GoogleBooksVolume para BookSuggestion
    */
   private mapVolumeToSuggestion(volume: GoogleBooksVolume): BookSuggestion {
     const isbn = volume.volumeInfo.industryIdentifiers?.find(
-      (identifier) => identifier.type === 'ISBN_13' || identifier.type === 'ISBN_10'
+      (identifier) =>
+        identifier.type === 'ISBN_13' || identifier.type === 'ISBN_10',
     )?.identifier;
 
     return {
@@ -55,9 +59,15 @@ export class BookSuggestionService {
   /**
    * Busca sugestões de livros por termo geral
    */
-  async searchBooks(query: string, maxResults: number = 10): Promise<BookSuggestion[]> {
+  async searchBooks(
+    query: string,
+    maxResults: number = 10,
+  ): Promise<BookSuggestion[]> {
     try {
-      const response = await this.googleBooksGateway.searchVolumes(query, maxResults);
+      const response = await this.googleBooksGateway.searchVolumes(
+        query,
+        maxResults,
+      );
 
       if (!response.items) {
         return [];
@@ -91,7 +101,10 @@ export class BookSuggestionService {
   /**
    * Busca sugestões de livros por título
    */
-  async searchByTitle(title: string, maxResults: number = 10): Promise<BookSuggestion[]> {
+  async searchByTitle(
+    title: string,
+    maxResults: number = 10,
+  ): Promise<BookSuggestion[]> {
     try {
       const response = await this.googleBooksGateway.searchByTitle(title);
 
@@ -99,7 +112,9 @@ export class BookSuggestionService {
         return [];
       }
 
-      return response.items.slice(0, maxResults).map((volume) => this.mapVolumeToSuggestion(volume));
+      return response.items
+        .slice(0, maxResults)
+        .map((volume) => this.mapVolumeToSuggestion(volume));
     } catch (error) {
       console.error('Erro ao buscar livro por título:', error);
       return [];
@@ -109,7 +124,10 @@ export class BookSuggestionService {
   /**
    * Busca sugestões de livros por autor
    */
-  async searchByAuthor(author: string, maxResults: number = 10): Promise<BookSuggestion[]> {
+  async searchByAuthor(
+    author: string,
+    maxResults: number = 10,
+  ): Promise<BookSuggestion[]> {
     try {
       const response = await this.googleBooksGateway.searchByAuthor(author);
 
@@ -117,7 +135,9 @@ export class BookSuggestionService {
         return [];
       }
 
-      return response.items.slice(0, maxResults).map((volume) => this.mapVolumeToSuggestion(volume));
+      return response.items
+        .slice(0, maxResults)
+        .map((volume) => this.mapVolumeToSuggestion(volume));
     } catch (error) {
       console.error('Erro ao buscar livros por autor:', error);
       return [];
@@ -142,7 +162,7 @@ export class BookSuggestionService {
    */
   async getSmartSuggestions(
     query: string,
-    maxResults: number = 10
+    maxResults: number = 10,
   ): Promise<BookSuggestion[]> {
     try {
       // Primeiro tenta buscar por ISBN se a query parecer um ISBN
@@ -171,4 +191,4 @@ export class BookSuggestionService {
     // Verifica se tem 10 ou 13 dígitos (ISBN-10 ou ISBN-13)
     return /^\d{10}$/.test(cleanQuery) || /^\d{13}$/.test(cleanQuery);
   }
-} 
+}

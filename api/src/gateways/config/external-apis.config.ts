@@ -30,4 +30,4 @@ export interface FutureApiConfig {
     apiKey?: string;
     timeout: number;
   };
-} 
+}
