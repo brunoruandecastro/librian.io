@@ -22,10 +22,11 @@ const book = {
 }
 
 interface PageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-export default function BookDetailPage({ params }: PageProps) {
+export default async function BookDetailPage({ params }: PageProps) {
+  const { id } = await params
   const statusConfig = {
     read: { label: 'Lido', icon: Eye, color: 'text-success', bgColor: 'bg-success-light', borderColor: 'border-success/20' },
     reading: { label: 'Lendo', icon: BookOpen, color: 'text-info', bgColor: 'bg-info-light', borderColor: 'border-info/20' },
