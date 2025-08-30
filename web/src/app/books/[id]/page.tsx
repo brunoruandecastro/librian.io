@@ -21,11 +21,11 @@ const book = {
   notes: "Uma obra-prima da literatura fantástica. A construção do mundo de Middle-earth é incrível, com suas línguas, culturas e história detalhadas. A jornada de Frodo e da Sociedade do Anel é emocionante e cheia de momentos memoráveis."
 }
 
-interface PageProps {
+type Props = {
   params: Promise<{ id: string }>
 }
 
-export default async function BookDetailPage({ params }: PageProps) {
+export default async function BookDetailPage({ params }: Props) {
   const { id } = await params
   const statusConfig = {
     read: { label: 'Lido', icon: Eye, color: 'text-success', bgColor: 'bg-success-light', borderColor: 'border-success/20' },
