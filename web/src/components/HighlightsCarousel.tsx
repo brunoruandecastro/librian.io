@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 type Book = {
   id: string
@@ -58,10 +59,12 @@ export default function HighlightsCarousel({ books }: { books: Book[] }) {
           {/* Book Cover */}
           <div className="w-48 h-64 md:w-56 md:h-80 flex-shrink-0 relative">
             {activeBook.coverUrl ? (
-              <img
+              <Image
                 src={activeBook.coverUrl}
                 alt={activeBook.title}
-                className="w-full h-full object-cover rounded-xl shadow-elevated"
+                fill
+                className="object-cover rounded-xl shadow-elevated"
+                sizes="(max-width: 768px) 192px, 224px"
               />
             ) : (
               <div className="w-full h-full bg-surface-700 rounded-xl shadow-elevated flex items-center justify-center">

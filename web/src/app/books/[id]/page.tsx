@@ -21,7 +21,11 @@ const book = {
   notes: "Uma obra-prima da literatura fantástica. A construção do mundo de Middle-earth é incrível, com suas línguas, culturas e história detalhadas. A jornada de Frodo e da Sociedade do Anel é emocionante e cheia de momentos memoráveis."
 }
 
-export default function BookDetailPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: { id: string }
+}
+
+export default function BookDetailPage({ params }: PageProps) {
   const statusConfig = {
     read: { label: 'Lido', icon: Eye, color: 'text-success', bgColor: 'bg-success-light', borderColor: 'border-success/20' },
     reading: { label: 'Lendo', icon: BookOpen, color: 'text-info', bgColor: 'bg-info-light', borderColor: 'border-info/20' },
@@ -173,4 +177,4 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
       </div>
     </div>
   )
-} 
+}

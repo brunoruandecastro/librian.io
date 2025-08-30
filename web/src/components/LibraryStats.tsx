@@ -1,4 +1,4 @@
-import { BookOpen, Eye, Clock, Heart, Star, TrendingUp, Calendar, Target } from "lucide-react"
+import { BookOpen, Eye, Clock, Heart, Star, TrendingUp } from "lucide-react"
 
 export default function LibraryStats() {
   // Mock stats - em produção viria da API
