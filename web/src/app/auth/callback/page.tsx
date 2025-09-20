@@ -14,23 +14,15 @@ function AuthCallbackContent() {
     const token = searchParams.get('token')
     const error = searchParams.get('error')
     
-    console.log('Callback page - Token:', token ? 'presente' : 'ausente')
-    console.log('Callback page - Error:', error)
-    
     if (token) {
-      console.log('Iniciando processo de login...')
       login(token).then(() => {
-        console.log('Login bem-sucedido, redirecionando...')
         router.push('/')
       }).catch((err: Error) => {
-        console.error('Erro no login:', err)
         router.push('/login?error=auth_failed')
       })
     } else if (error) {
-      console.error('Erro recebido no callback:', error)
       router.push(`/login?error=${error}`)
     } else {
-      console.error('Nem token nem erro encontrados')
       router.push('/login?error=no_token')
     }
   }, [searchParams, login, router])

@@ -71,13 +71,10 @@ export default function BookForm({ onSubmit, initialData, mode = "create" }: Boo
     setIsSubmitting(true)
     
     try {
-      // Simular delay de API
       await new Promise(resolve => setTimeout(resolve, 800))
-      
-      console.log("📚 Livro cadastrado:", form)
+    
       onSubmit?.(form)
       
-      // Reset form if creating new book
       if (mode === "create") {
         setForm({
           title: "",
@@ -95,7 +92,6 @@ export default function BookForm({ onSubmit, initialData, mode = "create" }: Boo
         })
       }
     } catch (error) {
-      console.error("Erro ao salvar livro:", error)
     } finally {
       setIsSubmitting(false)
     }

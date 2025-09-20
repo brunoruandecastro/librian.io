@@ -75,7 +75,6 @@ export class BookSuggestionService {
 
       return response.items.map((volume) => this.mapVolumeToSuggestion(volume));
     } catch (error) {
-      console.error('Erro ao buscar sugestões de livros:', error);
       return [];
     }
   }
@@ -93,7 +92,6 @@ export class BookSuggestionService {
 
       return response.items.map((volume) => this.mapVolumeToSuggestion(volume));
     } catch (error) {
-      console.error('Erro ao buscar livro por ISBN:', error);
       return [];
     }
   }
@@ -116,7 +114,6 @@ export class BookSuggestionService {
         .slice(0, maxResults)
         .map((volume) => this.mapVolumeToSuggestion(volume));
     } catch (error) {
-      console.error('Erro ao buscar livro por título:', error);
       return [];
     }
   }
@@ -139,7 +136,6 @@ export class BookSuggestionService {
         .slice(0, maxResults)
         .map((volume) => this.mapVolumeToSuggestion(volume));
     } catch (error) {
-      console.error('Erro ao buscar livros por autor:', error);
       return [];
     }
   }
@@ -152,7 +148,6 @@ export class BookSuggestionService {
       const volume = await this.googleBooksGateway.getVolumeById(volumeId);
       return this.mapVolumeToSuggestion(volume);
     } catch (error) {
-      console.error('Erro ao obter detalhes do livro:', error);
       return null;
     }
   }
@@ -176,7 +171,6 @@ export class BookSuggestionService {
       // Se não encontrou por ISBN, faz busca geral
       return await this.searchBooks(query, maxResults);
     } catch (error) {
-      console.error('Erro ao buscar sugestões inteligentes:', error);
       return [];
     }
   }

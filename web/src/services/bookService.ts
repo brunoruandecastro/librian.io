@@ -1,4 +1,6 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:3001';
+import { API_URLS } from '@/config/apis';
+
+const API_BASE_URL = API_URLS.INTERNAL;
 
 export interface CreateBookData {
   title: string;

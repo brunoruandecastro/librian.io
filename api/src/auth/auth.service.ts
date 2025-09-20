@@ -25,7 +25,6 @@ export class AuthService {
     return user;
   }
 
-  // Add this method to expose user update functionality
   async updateUser(userId: string, userData: any) {
     return this.userService.update(userId, userData);
   }

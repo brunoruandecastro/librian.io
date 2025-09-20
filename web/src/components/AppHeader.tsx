@@ -5,11 +5,11 @@ import { Search, User, BookOpen, Heart, Settings, Menu, X, Bell, Plus, Library, 
 import { useState } from "react"
 import { useAuth } from "@/contexts/AuthContext"
 
-// Função para gerar avatar baseado no nome/email
+import { buildApiUrl } from "@/config/apis"
+
 const generateAvatarUrl = (name: string, email: string) => {
   const seed = name || email || 'user';
-  // Usando DiceBear para gerar avatares consistentes
-  return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed)}&backgroundColor=3b82f6&textColor=ffffff&fontSize=40`;
+  return buildApiUrl.dicebear.initials(seed);
 };
 
 export default function AppHeader() {
@@ -123,17 +123,13 @@ export default function AppHeader() {
                       alt={user.name || 'Avatar do usuário'}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        console.log('Erro ao carregar avatar no header:', e.currentTarget.src);
-                        // Se falhar, usar o avatar gerado como fallback
                         if (e.currentTarget.src !== generateAvatarUrl(user.name, user.email)) {
                           e.currentTarget.src = generateAvatarUrl(user.name, user.email);
                         } else {
-                          // Se até o avatar gerado falhar, mostrar ícone
                           setImageError(true);
                         }
                       }}
                       onLoad={() => {
-                        console.log('Avatar do header carregado com sucesso:', user.picture || 'avatar gerado');
                         setImageError(false);
                       }}
                     />

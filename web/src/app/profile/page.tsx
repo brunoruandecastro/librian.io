@@ -15,11 +15,11 @@ interface UserStats {
   joinDate: string;
 }
 
-//todo: arrumar
-// Função para gerar avatar baseado no nome/email
+import { buildApiUrl } from "@/config/apis"
+
 const generateAvatarUrl = (name: string, email: string) => {
   const seed = name || email || 'user';
-  return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed)}&backgroundColor=3b82f6&textColor=ffffff&fontSize=40`;
+  return buildApiUrl.dicebear.initials(seed);
 };
 
 type TabId = 'overview' | 'reading-goals' | 'preferences'
@@ -46,11 +46,8 @@ export default function ProfilePage() {
         if (response.ok) {
           const stats = await response.json();
           setUserStats(stats);
-        } else {
-          console.error('Erro ao buscar estatísticas do usuário');
         }
       } catch (error) {
-        console.error('Erro ao buscar estatísticas:', error);
       } finally {
         setStatsLoading(false);
       }
@@ -147,7 +144,6 @@ export default function ProfilePage() {
                       alt={user.name || 'Avatar do usuário'}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        console.log('Erro ao carregar avatar:', e.currentTarget.src);
                         if (e.currentTarget.src !== generateAvatarUrl(user.name, user.email)) {
                           e.currentTarget.src = generateAvatarUrl(user.name, user.email);
                         } else {

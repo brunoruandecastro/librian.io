@@ -14,8 +14,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       passReqToCallback: false,
     });
   }
-
-  // Sobrescrever o método authenticate para adicionar parâmetros customizados
   authenticate(req: any, options?: any) {
     const customOptions = {
       ...options,
@@ -34,7 +32,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     const { id, emails, name, photos } = profile;
     const user = await this.authService.validateUser(emails[0].value, id);
 
-    // Atualizar informações do usuário se necessário
     if (!user.name || !user.picture) {
       const userData = {
         name: name?.givenName,
