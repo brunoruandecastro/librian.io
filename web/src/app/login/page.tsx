@@ -16,7 +16,7 @@ export default function LoginPage() {
   }, [user, loading, router])
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://127.0.0.1:3001/auth/google'
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL || 'https://librianio-production.up.railway.app'}/auth/google`
   }
 
   if (loading) {

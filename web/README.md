@@ -117,15 +117,6 @@ src/
 - [ ] Notificações
 - [ ] Modo offline
 
-## 🎨 Inspiração
-
-Este projeto foi inspirado no **Skoob**, a maior rede social de leitores do Brasil, mas com foco em:
-
-- **Autenticidade**: Design mais pessoal e íntimo
-- **Simplicidade**: Interface limpa e focada
-- **Performance**: Tecnologias modernas e otimizadas
-- **Customização**: Controle total sobre sua biblioteca
-
 ## 📄 Licença
 
 MIT License - veja o arquivo [LICENSE](../LICENSE) para detalhes.

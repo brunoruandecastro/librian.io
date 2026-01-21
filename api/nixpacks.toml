@@ -15,4 +15,3 @@ cmd = 'npx prisma migrate deploy && npm run start:prod'
 
 [variables]
 NODE_ENV = 'production'
-PORT = '3001'

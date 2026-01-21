@@ -1,5 +1,5 @@
 export const API_URLS = {
-  INTERNAL: process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:3001',
+  INTERNAL: process.env.NEXT_PUBLIC_API_URL || 'https://librianio-production.up.railway.app',
   
   DICEBEAR: 'https://api.dicebear.com/7.x',
   GOOGLE_BOOKS: 'https://www.googleapis.com/books/v1',
