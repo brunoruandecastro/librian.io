@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const savedToken = localStorage.getItem('auth_token')
     if (savedToken) {
       // Verificar se o token ainda é válido
-      fetch('http://127.0.0.1:3001/auth/profile', {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://librianio-production.up.railway.app'}/auth/profile`, {
         headers: {
           'Authorization': `Bearer ${savedToken}`
         }
@@ -73,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setToken(authToken)
 
       // Buscar dados do usuário
-      const response = await fetch('http://127.0.0.1:3001/auth/profile', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://librianio-production.up.railway.app'}/auth/profile`, {
         headers: {
           'Authorization': `Bearer ${authToken}`
         }

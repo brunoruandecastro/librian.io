@@ -37,7 +37,7 @@ export default function ProfilePage() {
       
       try {
         setStatsLoading(true);
-        const response = await fetch('http://127.0.0.1:3001/users/stats', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://librianio-production.up.railway.app'}/users/stats`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
